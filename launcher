@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export DISPLAY_ID=99
+export DISPLAY=:$DISPLAY_ID.0
+/usr/bin/Xvfb :$DISPLAY_ID -ac &
+/usr/bin/python /test.py
