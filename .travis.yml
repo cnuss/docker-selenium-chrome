@@ -1,0 +1,12 @@
+sudo: required
+
+language: java
+
+services:
+ - docker
+
+script:
+ - docker build --tag=cnuss/selenium-firefox:latest --tag=cnuss/selenium-firefox:travis_$TRAVIS_BUILD_NUMBER .
+ - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" https://index.docker.io/v1/
+ - docker push cnuss/selenium-firefox:travis_$TRAVIS_BUILD_NUMBER
+ - docker push cnuss/selenium-firefox:latest
