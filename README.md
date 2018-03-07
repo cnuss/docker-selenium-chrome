@@ -30,7 +30,7 @@ docker run docker-selenium-firefox:latest
 3. Add the following Dockerfile:
 
 ```
-FROM cnuss/docker-selenium-firefox:latest
+FROM cnuss/selenium-firefox:latest
 
 ADD run_test.py /opt/bin
 CMD ["/opt/bin/launcher", "/opt/bin/run_test.py"]
