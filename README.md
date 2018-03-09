@@ -1,26 +1,26 @@
-# docker-selenium-firefox
+# docker-selenium-chrome
 
-[![Build Status](https://travis-ci.org/cnuss/docker-selenium-firefox.svg?branch=master)](https://travis-ci.org/cnuss/docker-selenium-firefox)
+[![Build Status](https://travis-ci.org/cnuss/docker-selenium-chrome.svg?branch=master)](https://travis-ci.org/cnuss/docker-selenium-chrome)
 
 A Docker container that installs:
  - Xvfb (Virtual Display)
- - Firefox
+ - Crome
  - Python
  - Selenium
- - Geckodriver
+ - Chromedriver
 
  It also provides a sample script to get you started to run a Selenium session.
 
 # Building (Locally)
 
 ```
-docker build --tag docker-selenium-firefox:latest .
+docker build --tag docker-selenium-chrome:latest .
 ```
 
 # Running (Locally)
 
 ```
-docker run docker-selenium-firefox:latest
+docker run docker-selenium-chrome:latest
 ```
 
 # Customizing (Quick 'n Dirty Example)
@@ -30,7 +30,7 @@ docker run docker-selenium-firefox:latest
 3. Add the following Dockerfile:
 
 ```
-FROM cnuss/selenium-firefox:latest
+FROM cnuss/selenium-chrome:latest
 
 ADD run_test.py /opt/bin
 CMD ["/opt/bin/launcher", "/opt/bin/run_test.py"]

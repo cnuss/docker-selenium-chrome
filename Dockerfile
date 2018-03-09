@@ -1,43 +1,31 @@
 FROM ubuntu:16.04
 
-ENV FIREFOX_VERSION 58.0.2
-ENV GECKODRIVER_VERSION 0.19.1
-
-ENV FIREFOX_DIR /usr/bin/firefox
-ENV FIREFOX_FILENAME $FIREFOX_DIR/firefox.tar.bz2
-
-ENV GECKODRIVER_DIR /usr/bin/geckodriver
-ENV GECKODRIVER_FILENAME $GECKODRIVER_DIR/geckodriver.tar.gz
-
-ENV PATH $FIREFOX_DIR:$GECKODRIVER_DIR:$PATH
+ENV CHROME_VERSION 65.0.3325.146-1
+ENV CHROMEDRIVER_VERSION 2.36
 
 RUN \
 	# REQUIREMENTS \
 	apt-get update -qqy && \
-    apt-get install -y --no-install-recommends wget xvfb bzip2 python-pip libgtk-3-dev libdbus-glib-1-dev && \
+    apt-get install -y --no-install-recommends wget python-pip unzip && \
     \
-    # FIREFOX \ 
-    mkdir $FIREFOX_DIR && \
-    wget -q --continue --output-document $FIREFOX_FILENAME "https://ftp.mozilla.org/pub/firefox/releases/${FIREFOX_VERSION}/linux-x86_64/en-US/firefox-${FIREFOX_VERSION}.tar.bz2" && \
-    tar -xjf $FIREFOX_FILENAME --strip-components=1 --directory "$FIREFOX_DIR" && \
-    rm $FIREFOX_FILENAME && \
+    # CHROME \ 
+    wget -q --continue --output-document /opt/chrome.deb "http://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}_amd64.deb" && \
+    apt install -y /opt/chrome.deb && \
+    rm /opt/chrome.deb && \
     \
-    # GECKODRIVER \
-    mkdir $GECKODRIVER_DIR && \
-    wget -q --continue --output-document $GECKODRIVER_FILENAME "https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz" && \
-    tar -xzf $GECKODRIVER_FILENAME --directory "$GECKODRIVER_DIR" && \
-    rm $GECKODRIVER_FILENAME && \
+    # CHROMEDRIVER \
+    wget -q --continue --output-document /opt/chromedriver.zip "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip" && \
+    unzip -q /opt/chromedriver.zip -d /usr/bin && \
+    rm /opt/chromedriver.zip && \
     \
     # SELENIUM \
     pip --no-cache-dir --disable-pip-version-check --quiet install selenium && \
     \
     # CLEANUP \
-    apt-get remove -y wget bzip2 && \
     rm -rf /var/lib/apt/lists/* && \
     \
     mkdir -p /opt/bin
 
-ADD launcher /opt/bin
 ADD simple_test.py /opt/bin
 
-CMD ["/opt/bin/launcher", "/opt/bin/simple_test.py"]
+CMD ["/usr/bin/python", "/opt/bin/simple_test.py"]

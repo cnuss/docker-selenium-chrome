@@ -1,13 +1,14 @@
 #!/usr/bin/env python
 
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 
 options = Options()
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 options.set_headless(True)
-options.set_preference("browser.privatebrowsing.autostart", True)
 
-browser = webdriver.Firefox(firefox_options=options, log_path='/dev/stdout')
+browser = webdriver.Chrome(options=options, service_args=["--verbose", "--log-path=/tmp/chrome.log"])
 browser.get('https:/github.com/cnuss')
 browser.save_screenshot('/tmp/screenshot.png')
 
