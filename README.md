@@ -3,8 +3,7 @@
 [![Build Status](https://travis-ci.org/cnuss/docker-selenium-chrome.svg?branch=master)](https://travis-ci.org/cnuss/docker-selenium-chrome)
 
 A Docker container that installs:
- - Xvfb (Virtual Display)
- - Crome
+ - Chrome
  - Python
  - Selenium
  - Chromedriver
